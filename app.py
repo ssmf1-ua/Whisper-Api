@@ -9,6 +9,10 @@ CORS(app)
 
 model = whisper.load_model("tiny")
 
+@app.route('/')
+def home():
+    return "¡Hola, mundo! La aplicación está funcionando."
+
 @app.route('/transcribe', methods=['POST'])
 def transcribe():
     if 'file' not in request.files:
