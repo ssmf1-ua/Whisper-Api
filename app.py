@@ -7,7 +7,7 @@ import tempfile
 app = Flask(__name__)
 CORS(app)
 
-model = whisper.load_model("tiny")
+model = whisper.load_model("tiny", device="cpu")
 
 @app.route('/')
 def home():
@@ -19,6 +19,9 @@ def transcribe():
         return jsonify({'error': 'No file uploaded'}), 400
 
     file = request.files['file']
+    
+    print(f"Tamaño del archivo de audio: {len(file.read())} bytes")
+    file.seek(0)
     
     with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as temp:
         file.save(temp.name)
